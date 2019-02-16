@@ -1,0 +1,244 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Aapnik Signup</title>
+    <meta charset="UTF-8">
+  {% load staticfiles %}
+
+  
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--===============================================================================================-->
+        <link rel="icon" type="image/png" href={% static "/login/images/icons/favicon.ico" %} />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href={% static "/login/vendor/bootstrap/css/bootstrap.min.css" %}
+  />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href={% static "/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css" %} />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href={% static  "/login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css" %} />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href={% static "/login/vendor/animate/animate.css" %} />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href={% static "/login/vendor/css-hamburgers/hamburgers.min.css" %} />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href={% static "/login/vendor/animsition/css/animsition.min.css" %} />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href={% static  "/login/vendor/select2/select2.min.css" %} />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href={% static "/login/vendor/daterangepicker/daterangepicker.css" %} />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href={% static "/login/css/util.css" %}/>
+        <link rel="stylesheet" type="text/css" href={% static "/login/css/main.css" %}/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+          <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+          
+
+
+
+
+        </head>
+        <body>
+          <div class="limiter">
+            <div class="container-login100" style="background-image: url( {% static  '/login/images/bg-01.jpg' %});"  >
+    {% block content %}
+    {% endblock %}
+
+
+
+
+</div>
+          </div>
+        </body>
+        <script>
+
+    $(document).on('submit',"#newuserform",function(e){
+      e.preventDefault();
+      console.log(e)
+      csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+      console.log("ajdsbc");
+
+        username = document.getElementById("username").value;
+        email = document.getElementById("email").value;
+        firstname = document.getElementById("firstname").value;
+        lastname = document.getElementById("lastname").value;
+        password = document.getElementById("password").value;
+        password2=document.getElementById("pass2").value;
+        console.log(username,password)
+        // csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        console.log(e)
+        $.ajax({
+            type:"POST",
+            url:'/signup/',
+            data:{
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+                'username':username,
+                "email":email,
+                "firstname":firstname,
+                "lastname":lastname,
+                "password2":password2,
+                'password':password,
+
+            },
+            
+            success : function(data){
+              
+                console.log(data);
+                if(data['error']){
+                  alert(data['error'])
+                    
+                    console.log(data['error']);
+                }
+                else if(data['message'] ){
+                    alert(data['message '])
+                    console.log(data['message']);
+                }
+                else{
+                    
+                    console.log("asdncbv");
+                }
+            }
+
+        });
+        console.log(e)
+    });
+
+$(document).ready(function(){
+            $("#loginbutton").click(function(e){
+              e.preventDefault();
+
+
+      console.log(e)
+      $("#login_not").hide();
+      csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+      console.log("ajdsbc");
+
+        username = document.getElementById("lusername").value;
+        password = document.getElementById("lpassword").value;
+        console.log(username,password)
+        // csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+
+
+        $.ajax({
+            type:"POST",
+            url:'/login/',
+            data:{
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+                'username':username,
+                'password':password,
+
+            },
+
+
+
+            
+            success : function(data){
+                console.log(data)
+                if(data['message']=="invalid"){
+
+                    $("#login_not").show();
+                }
+            
+                else if(data['message']=="Success" ){
+                    window.location.href = "";
+                    console.log(data['message']);
+                }
+            }
+
+        });
+        e.preventDefault();
+    });
+});
+
+
+
+
+    $(document).on('submit',"#Userdetailsform",function(e){
+      e.preventDefault();
+      console.log(e)
+      csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+      console.log("ajdsbc");
+      clgname=document.getElementById("clgname").value
+      age=document.getElementById("age").value
+      summary=document.getElementById("summary").value
+
+        console.log(e)
+        $.ajax({
+            type:"POST",
+            url:'/userdetails/',
+            data:{
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+                "collegename":clgname,
+                "age":age,
+                "summary":summary,
+
+            },
+            
+            success : function(data){
+                alert("details saved")
+
+
+
+            }
+
+
+        });
+        console.log(e)
+    });
+
+
+$(document).ready(function(){
+            $("#details").click(function(e){
+              e.preventDefault();
+
+
+$.ajax({
+            type: "get",
+            url: "/userdetails/",
+            
+            success: function(data){
+                $("#modal-book .modal-content").html();
+                console.log(data['details'][0]['user__email']);
+                console.log(data['details'][0]['age']);
+                console.log(data['details'][0]['user__first_name']);
+                console.log(data['details'][0]['college_name']);
+                console.log(data['details'][0]['summary']);
+                
+                $("#firstnamespan").html(data['details'][0]['user__first_name'])
+                $("#agespan").html(data['details'][0]['age'])
+                $("#Collegenamespan").html(data['details'][0]['college_name'])
+                $("#summaryspan").html(data['details'][0]['summary'])
+                $("#emailspan").html(data['details'][0]['user__email']);
+
+
+                
+                
+
+            },
+            error: function(){
+                alert("error");
+            }
+        });
+    });
+});
+
+
+
+
+
+
+
+
+    </script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      </html>
+
+
+
+
+
